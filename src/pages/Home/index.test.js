@@ -40,3 +40,25 @@ describe("When a page is created", () => {
     // to implement
   });
 });
+
+describe("When the page is rendered", () => {
+  it("all anchor links have valid corresponding IDs", () => {
+    render(<Home />);
+
+    // Sélectionne tous les liens avec des ancres dans la page
+    const anchorLinks = screen.getAllByRole("link", {
+      name: /nos services|nos réalisations|notre équipe|contact/i,
+    });
+
+    anchorLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        const anchorId = href.slice(1); // Extraire l'ID après le #
+        const targetElement = document.getElementById(anchorId);
+
+        // Vérifie si l'élément avec cet ID existe
+        expect(targetElement).toBeTruthy();
+      }
+    });
+  });
+});
